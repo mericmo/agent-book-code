@@ -1,0 +1,23 @@
+{
+  "name": "search_orders",
+  "description": "搜索当前用户的历史订单。日期范围必填；返回按下单时间倒序的订单信息。仅支持搜索本账户订单。",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "start_date": {
+        "type": "string",
+        "description": "起始日期，ISO 8601 格式，如 2026-01-01"
+      },
+      "end_date": {
+        "type": "string",
+        "description": "结束日期（含），必须晚于 start_date"
+      },
+      "status": {
+        "type": "string",
+        "enum": ["pending", "shipped", "delivered", "cancelled"],
+        "description": "按状态过滤，不传则返回全部状态"
+      }
+    },
+    "required": ["start_date", "end_date"]
+  }
+}
