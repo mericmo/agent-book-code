@@ -1,10 +1,13 @@
 # deepseek_demo.py
 # DeepSeek 调用示例（OpenAI SDK 兼容）
+import json
 import os
 
+from dotenv import load_dotenv
 from openai import OpenAI
-import json
-client = OpenAI(api_key=os.getenv('DEEPSEEK_API_KEY'), base_url="https://api.deepseek.com")
+
+load_dotenv()  # 从当前目录向上查找 .env
+client = OpenAI(api_key=os.getenv('MODEL_API_KEY'), base_url=os.getenv('MODEL_BASE_URL'))
 def get_weather(location):
   # 模拟天气数据
   return f"查询到{location}今天的天气情况是：晴朗，温度24℃"
@@ -33,7 +36,7 @@ tools = [{
 # 第一轮：模型返回工具调用意图
 messages = [{"role": "user", "content": "How's the weather in Hangzhou?"}]
 
-response = client.chat.completions.create(model="deepseek-flash", messages=messages, tools=tools)
+response = client.chat.completions.create(model=os.getenv('MODEL_NAME'), messages=messages, tools=tools)
 
 message = response.choices[0].message
 
@@ -49,5 +52,5 @@ result = fn(**args)                           # 执行
 messages.append({"role": "tool", "tool_call_id": tool.id, "content": result})
 
 # 第二轮
-response = client.chat.completions.create(model="deepseek-flash", messages=messages, tools=tools)
+response = client.chat.completions.create(model=os.getenv('MODEL_NAME'), messages=messages, tools=tools)
 print(response.choices[0].message.content)
