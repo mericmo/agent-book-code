@@ -1,4 +1,4 @@
-# deepseek_demo.py
+# tools_demo.py
 # DeepSeek 调用示例（OpenAI SDK 兼容）
 import json
 import os
